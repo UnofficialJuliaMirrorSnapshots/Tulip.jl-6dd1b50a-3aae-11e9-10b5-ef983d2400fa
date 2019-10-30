@@ -1,4 +1,4 @@
-import DataStructures:
+import OrderedCollections:
     OrderedSet, OrderedDict
 
 """
@@ -71,6 +71,10 @@ end
 include("API/api.jl")
 
 function optimize!(m::Model{Tv}) where{Tv<:Real}
+
+    # Parameters
+    m.env.threads > 0 || error("Invalid thread count: $(m.env.threads).")
+    BLAS.set_num_threads(m.env.threads)
 
     # Convert to standard form
     # TODO: only re-compute what is necessary
